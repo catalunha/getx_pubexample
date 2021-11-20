@@ -5,14 +5,7 @@ import 'package:get/get.dart';
 
 void main() => runApp(
       GetMaterialApp(
-        home: Home(),
-        getPages: [
-          GetPage(
-            name: '/',
-            page: () => Home(),
-            binding: HomeBinding(),
-          ),
-        ],
+        home: HomeConnector(),
       ),
     );
 
@@ -26,60 +19,74 @@ class CountController extends GetxController {
   }
 }
 
-class HomeBinding implements Bindings {
+class HomeConnector extends StatelessWidget {
+  final controller = Get.put(CountController());
   @override
-  void dependencies() {
-    Get.lazyPut<CountController>(() => CountController());
+  Widget build(BuildContext context) {
+    return GetBuilder<CountController>(
+      builder: (controller) => HomeUI(
+        count: controller.count,
+        increment: controller.increment,
+      ),
+    );
   }
 }
 
-class Home extends StatelessWidget {
-  final controller = Get.put(CountController());
-  // @override
+class HomeUI extends StatelessWidget {
+  final int count;
+  final VoidCallback increment;
+  const HomeUI({
+    Key? key,
+    required this.count,
+    required this.increment,
+  }) : super(key: key);
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("counter")),
+      appBar: AppBar(
+        title: const Text("counter"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GetBuilder<CountController>(
-              // init: CountController(),
-              builder: (controller) => Text(
-                'clicks: ${controller.count}',
-              ),
-            ),
+            Text('clicks: $count'),
             ElevatedButton(
-              child: Text('Next Route'),
+              child: const Text('Next Route'),
               onPressed: () {
-                Get.to(() => Second());
+                Get.to(() => SecondConnector());
               },
             ),
           ],
         ),
       ),
-
-      floatingActionButton: GetBuilder<CountController>(
-        // init: Controller(),
-        builder: (controller) => FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => controller.increment(),
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => increment(),
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   onPressed: () => controller.increment(),
-      // ),
     );
   }
 }
 
-class Second extends StatelessWidget {
+class SecondConnector extends StatelessWidget {
   // final Controller ctrl = Get.find();
   @override
   Widget build(context) {
-    return Scaffold(
-        body: Center(child: Text("${CountController.found.count}")));
+    return SecondUI(
+      count: CountController.found.count,
+    );
+  }
+}
+
+class SecondUI extends StatelessWidget {
+  final int count;
+
+  const SecondUI({
+    Key? key,
+    required this.count,
+  }) : super(key: key);
+  @override
+  Widget build(context) {
+    return Scaffold(body: Center(child: Text("$count")));
   }
 }
