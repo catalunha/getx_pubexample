@@ -10,7 +10,7 @@ void main() => runApp(
 class CountController extends GetxController {
   static CountController get found => Get.find(); // adicione esta linha
 
-  var _count = 0.obs;
+  final _count = 0.obs;
 
   get count => _count.value;
 
@@ -78,32 +78,21 @@ class SecondConnector extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return Scaffold(
-        body: Center(child: Text("${CountController.found.count}")));
+    return SecondUI(
+      count: CountController.found.count,
+    );
   }
 }
 
+class SecondUI extends StatelessWidget {
+  final int count;
 
-// class SecondConnector extends StatelessWidget {
-//   const SecondConnector({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(context) {
-//     return SecondUI(
-//       count: CountController.found.count,
-//     );
-//   }
-// }
-
-// class SecondUI extends StatelessWidget {
-//   final int count;
-
-//   const SecondUI({
-//     Key? key,
-//     required this.count,
-//   }) : super(key: key);
-//   @override
-//   Widget build(context) {
-//     return Scaffold(body: Center(child: Text("$count")));
-//   }
-// }
+  const SecondUI({
+    Key? key,
+    required this.count,
+  }) : super(key: key);
+  @override
+  Widget build(context) {
+    return Scaffold(body: Center(child: Text("$count")));
+  }
+}
