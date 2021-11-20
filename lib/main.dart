@@ -52,7 +52,7 @@ class HomeUI extends StatelessWidget {
             ElevatedButton(
               child: const Text('Next Route'),
               onPressed: () {
-                Get.to(() => const SecondConnector());
+                Get.to(() => SecondConnector());
               },
             ),
           ],
@@ -67,25 +67,33 @@ class HomeUI extends StatelessWidget {
 }
 
 class SecondConnector extends StatelessWidget {
-  const SecondConnector({Key? key}) : super(key: key);
-
   @override
   Widget build(context) {
-    return SecondUI(
-      count: CountController.found.count,
-    );
+    return Scaffold(
+        body: Center(child: Text("${CountController.found.count}")));
   }
 }
 
-class SecondUI extends StatelessWidget {
-  final int count;
+// class SecondConnector extends StatelessWidget {
+//   const SecondConnector({Key? key}) : super(key: key);
 
-  const SecondUI({
-    Key? key,
-    required this.count,
-  }) : super(key: key);
-  @override
-  Widget build(context) {
-    return Scaffold(body: Center(child: Text("$count")));
-  }
-}
+//   @override
+//   Widget build(context) {
+//     return SecondUI(
+//       count: CountController.found.count,
+//     );
+//   }
+// }
+
+// class SecondUI extends StatelessWidget {
+//   final int count;
+
+//   const SecondUI({
+//     Key? key,
+//     required this.count,
+//   }) : super(key: key);
+//   @override
+//   Widget build(context) {
+//     return Scaffold(body: Center(child: Text("$count")));
+//   }
+// }
