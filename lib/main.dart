@@ -28,8 +28,8 @@ class HomeConnector extends StatelessWidget {
   final controller = Get.put(CountController());
   @override
   Widget build(BuildContext context) {
-    return GetX<CountController>(
-      builder: (controller) => HomeUI(
+    return Obx(
+      () => HomeUI(
         count: controller.count,
         increment: controller.increment,
       ),
