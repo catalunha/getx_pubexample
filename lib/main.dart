@@ -10,10 +10,17 @@ void main() => runApp(
 class CountController extends GetxController {
   static CountController get found => Get.find(); // adicione esta linha
 
-  var count = 0;
+  var _count = 0.obs;
+
+  get count => _count.value;
+
+  set count(count) {
+    _count.value = count;
+  }
+
   void increment() {
-    count++;
-    update();
+    _count.value++;
+    // update();
   }
 }
 
@@ -21,7 +28,7 @@ class HomeConnector extends StatelessWidget {
   final controller = Get.put(CountController());
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CountController>(
+    return GetX<CountController>(
       builder: (controller) => HomeUI(
         count: controller.count,
         increment: controller.increment,
@@ -71,21 +78,32 @@ class SecondConnector extends StatelessWidget {
 
   @override
   Widget build(context) {
-    return SecondUI(
-      count: CountController.found.count,
-    );
+    return Scaffold(
+        body: Center(child: Text("${CountController.found.count}")));
   }
 }
 
-class SecondUI extends StatelessWidget {
-  final int count;
 
-  const SecondUI({
-    Key? key,
-    required this.count,
-  }) : super(key: key);
-  @override
-  Widget build(context) {
-    return Scaffold(body: Center(child: Text("$count")));
-  }
-}
+// class SecondConnector extends StatelessWidget {
+//   const SecondConnector({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(context) {
+//     return SecondUI(
+//       count: CountController.found.count,
+//     );
+//   }
+// }
+
+// class SecondUI extends StatelessWidget {
+//   final int count;
+
+//   const SecondUI({
+//     Key? key,
+//     required this.count,
+//   }) : super(key: key);
+//   @override
+//   Widget build(context) {
+//     return Scaffold(body: Center(child: Text("$count")));
+//   }
+// }
