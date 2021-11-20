@@ -1,14 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() => runApp(
       GetMaterialApp(
         home: Home(),
+        getPages: [
+          GetPage(
+            name: '/',
+            page: () => Home(),
+            binding: HomeBinding(),
+          ),
+        ],
       ),
     );
 
-class Controller extends GetxController {
-  // static Controller get to => Get.find(); // adicione esta linha
+class CountController extends GetxController {
+  static CountController get found => Get.find(); // adicione esta linha
 
   var count = 0;
   void increment() {
@@ -17,9 +26,16 @@ class Controller extends GetxController {
   }
 }
 
-class Home extends StatelessWidget {
-  // final controller = Get.put(Controller());
+class HomeBinding implements Bindings {
   @override
+  void dependencies() {
+    Get.lazyPut<CountController>(() => CountController());
+  }
+}
+
+class Home extends StatelessWidget {
+  final controller = Get.put(CountController());
+  // @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("counter")),
@@ -27,8 +43,8 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GetBuilder<Controller>(
-              init: Controller(),
+            GetBuilder<CountController>(
+              // init: CountController(),
               builder: (controller) => Text(
                 'clicks: ${controller.count}',
               ),
@@ -42,32 +58,28 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: GetBuilder<Controller>(
+
+      floatingActionButton: GetBuilder<CountController>(
         // init: Controller(),
         builder: (controller) => FloatingActionButton(
           child: Icon(Icons.add),
-          // onPressed: () => Controller.to.increment(),
-          // onPressed: () => controller.increment(),
           onPressed: () => controller.increment(),
         ),
       ),
+
       // floatingActionButton: FloatingActionButton(
       //   child: Icon(Icons.add),
-      //   // onPressed: () => Controller.to.increment(),
-      //   // onPressed: () => controller.increment(),
-      //   onPressed: () => GetBuilder<Controller>(
-      //     // init: Controller(),
-      //     builder: (controller) => controller.increment(),
-      //   ),
+      //   onPressed: () => controller.increment(),
       // ),
     );
   }
 }
 
 class Second extends StatelessWidget {
-  final Controller ctrl = Get.find();
+  // final Controller ctrl = Get.find();
   @override
   Widget build(context) {
-    return Scaffold(body: Center(child: Text("${ctrl.count}")));
+    return Scaffold(
+        body: Center(child: Text("${CountController.found.count}")));
   }
 }
