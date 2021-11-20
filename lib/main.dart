@@ -18,7 +18,7 @@ class Controller extends GetxController {
 }
 
 class Home extends StatelessWidget {
-  // final controller = Get.put(Controller());
+  final controller = Get.put(Controller());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,6 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GetBuilder<Controller>(
-              init: Controller(),
               builder: (controller) => Text(
                 'clicks: ${controller.count}',
               ),
@@ -42,24 +41,10 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: GetBuilder<Controller>(
-        // init: Controller(),
-        builder: (controller) => FloatingActionButton(
-          child: Icon(Icons.add),
-          // onPressed: () => Controller.to.increment(),
-          // onPressed: () => controller.increment(),
-          onPressed: () => controller.increment(),
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => controller.increment(),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(Icons.add),
-      //   // onPressed: () => Controller.to.increment(),
-      //   // onPressed: () => controller.increment(),
-      //   onPressed: () => GetBuilder<Controller>(
-      //     // init: Controller(),
-      //     builder: (controller) => controller.increment(),
-      //   ),
-      // ),
     );
   }
 }
