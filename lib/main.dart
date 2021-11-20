@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +32,7 @@ class HomeConnector extends StatelessWidget {
 
 class HomeUI extends StatelessWidget {
   final int count;
-  final VoidCallback increment;
+  final Function increment;
   const HomeUI({
     Key? key,
     required this.count,
@@ -54,7 +52,7 @@ class HomeUI extends StatelessWidget {
             ElevatedButton(
               child: const Text('Next Route'),
               onPressed: () {
-                Get.to(() => SecondConnector());
+                Get.to(() => const SecondConnector());
               },
             ),
           ],
@@ -69,7 +67,8 @@ class HomeUI extends StatelessWidget {
 }
 
 class SecondConnector extends StatelessWidget {
-  // final Controller ctrl = Get.find();
+  const SecondConnector({Key? key}) : super(key: key);
+
   @override
   Widget build(context) {
     return SecondUI(
